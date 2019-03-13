@@ -4,24 +4,30 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
-import java.util.Date;
+import javax.validation.constraints.NotNull;
 
 @Entity
-@Setter @Getter @NoArgsConstructor
-public class Todo {
+@Getter @Setter@NoArgsConstructor
+public class User {
 
     @Id
     @GeneratedValue
     private Long id;
 
     @NotEmpty
-    private String title;
-    @NotEmpty
-    private String description;
-    private Date finish;
+    @Column(unique = true)
+    private String userName;
 
+    @NotEmpty
+    private  String name;
+    @NotEmpty
+    private  String password;
+
+    @NotNull
+    private boolean admin;
 }
