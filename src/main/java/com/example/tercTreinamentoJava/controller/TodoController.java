@@ -1,6 +1,8 @@
 package com.example.tercTreinamentoJava.controller;
 
 
+import com.example.tercTreinamentoJava.message.TodoConsumer;
+import com.example.tercTreinamentoJava.message.TodoProducer;
 import com.example.tercTreinamentoJava.model.Todo;
 import com.example.tercTreinamentoJava.repository.TodoRepository;
 import org.slf4j.Logger;
@@ -21,8 +23,12 @@ public class TodoController {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(TodoController.class);
     private TodoRepository todoRepository;
+    private TodoProducer todoProducer;
     @Autowired
-    public TodoController(TodoRepository todoRepository){this.todoRepository = todoRepository;}
+    public TodoController(TodoRepository todoRepository, TodoProducer todoProducer){
+        this.todoRepository = todoRepository;
+        this.todoProducer = todoProducer;
+    }
 
     @GetMapping()
     public ResponseEntity findAll(@RequestParam(value = "title", required = false)String title,
@@ -51,8 +57,8 @@ public class TodoController {
 
     @PostMapping()
     public ResponseEntity<Todo> createTodo(@RequestBody Todo todo){
-        Todo dbTodo = todoRepository.save(todo);
-        return new ResponseEntity<>(dbTodo, HttpStatus.CREATED);
+        todoProducer.sendTodoMessage(todo);
+        return new ResponseEntity<>(HttpStatus.CREATED);
 
     }
 

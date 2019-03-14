@@ -36,8 +36,6 @@ public class TodoJob {
             todoRepository.save(todo);
             int random = new Random().nextInt(3);
             LOGGER.info(String.valueOf(random));
-//            if (random == 2)
-//                throw new Exception("Gerou numero 2");
             readFile();
         }catch (Exception e){
             LOGGER.error("Ocorreu um erro no job TodoJob", e);
